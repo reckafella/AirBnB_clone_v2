@@ -31,6 +31,8 @@ class FileStorage:
                 if item == obj:
                     del item
                     self.save()
+        else:
+            pass
 
     def reload(self):
         """Loads storage dictionary from file"""
