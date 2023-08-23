@@ -27,10 +27,8 @@ class FileStorage:
     def delete(self, obj=None):
         """ Deletes obj from __objects if present """
         if obj is not None:
-            for item in self.all().items():
-                if item == obj:
-                    del item
-                    self.save()
+            new_data = {item for item in self.all().items if item != obj}
+            new_data.save()
         else:
             pass
 
