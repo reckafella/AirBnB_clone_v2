@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+import subprocess
 import sys
+import os
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -254,7 +256,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
             # for k, v in storage._FileStorage__objects.items():
-            for k, v in storage.all(args).items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
@@ -272,10 +274,16 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, args):
         """Count current number of class instances"""
         count = 0
-        for k, v in storage._FileStorage__objects.items():
-            if args == k.split('.')[0]:
-                count += 1
-        print(count)
+        if args:
+            if args in HBNBCommand.classes:
+                for k, v in storage.all().items():
+                    if args == k.split('.')[0]:
+                        count += 1
+                print(count)
+            else:
+                print("** class doesn't exist **")
+        else:
+            self.help_count()
 
     def help_count(self):
         """ """
@@ -368,6 +376,22 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
+    def do_clear(self, command):
+        """ Clear console """
+        os.system('clear')
+
+    def help_clear(self):
+        """ Help message for clear """
+        print("Clear console")
+
+    def do_cls(self, command):
+        """ Clear console """
+        os.system('clear')
+
+    def help_cls(self):
+        """ Help message for cls """
+        print("Clear console")
 
 
 if __name__ == "__main__":
