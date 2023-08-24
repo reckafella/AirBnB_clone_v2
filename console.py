@@ -227,11 +227,13 @@ class HBNBCommand(cmd.Cmd):
             # for k, v in storage._FileStorage__objects.items():
             for k, v in storage.all().items():
                 if k.split('.')[0] == args:
-                    print_list.append(str(v))
+                    Str = str(v).replace('"', '')
+                    print_list.append(Str)
         else:
             # for k, v in storage._FileStorage__objects.items():
             for k, v in storage.all().items():
-                print_list.append(str(v))
+                Str = str(v).replace('"', '')
+                print_list.append(Str)
 
         print(print_list)
 

@@ -4,36 +4,57 @@ import json
 
 
 class FileStorage:
-    """This class manages storage of hbnb models in JSON format"""
+    """
+    This class manages storage of hbnb models in JSON format
+    """
     __file_path = 'file.json'
     __objects = {}
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage"""
-        return FileStorage.__objects
+        """
+        Returns a dictionary of models currently in storage
+        """
+        if cls is None:
+            return FileStorage.__objects
+        else:
+            object_dict = {}
+
+            for key, value in self.__objects.items():
+                if isinstance(value, cls):
+                    object_dict[key] = value
+
+            return object_dict
 
     def new(self, obj):
-        """Adds new object to storage dictionary"""
+        """
+        Adds new object to storage dictionary
+        """
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
-        """Saves storage dictionary to file"""
+        """
+        Saves storage dictionary to file
+        """
         with open(FileStorage.__file_path, 'w') as f:
             temp = {}
             temp.update(FileStorage.__objects)
             for key, val in temp.items():
                 temp[key] = val.to_dict()
             json.dump(temp, f)
+
     def delete(self, obj=None):
-        """ Deletes obj from __objects if present """
+        """
+        Delete obj from __objects if present
+        """
         if obj is not None:
-            new_data = {item for item in self.all().items if item != obj}
-            new_data.save()
-        else:
-            pass
+            object_key = obj.__class__.__name__ + '.' + obj.id
+            if object_key in self.__objects.keys():
+                del self.__objects[object_key]
 
     def reload(self):
-        """Loads storage dictionary from file"""
+        """
+        Loads storage dictionary from file
+        """
         from models.base_model import BaseModel
         from models.user import User
         from models.place import Place
@@ -52,6 +73,10 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
+
+    def close(self):
+        """ Load objects from local JSON file """
+        self.reload()

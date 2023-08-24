@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 """ Module implementing tools to connect with a MySQL database """
-from models.base_model import Base, BaseModel
-from models.amenity import Amenity
-from models.place import Place
-from models.city import City
-from models.review import Review
-from models.state import State
-from models.user import User
-from sqlalchemy import create_engine
+
 from sqlalchemy.orm import sessionmaker, scoped_session
+from models.base_model import Base, BaseModel
+from sqlalchemy import create_engine
+from models.amenity import Amenity
+from models.review import Review
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.user import User
 import os
+
 
 class DBStorage():
     """ Class managing data storage in a MySQL database """
@@ -23,7 +25,8 @@ class DBStorage():
     env = os.getenv('HBNB_ENV', 'none')
 
     def __init__(self):
-        self.__db_url = 'mysql+mysqldb://{}:{}@{}/{}'.format(self.db_user, self.db_pwd, self.db_host, self.db)
+        self.__db_url = 'mysql+mysqldb://{}:{}@{}/{}'\
+            .format(self.db_user, self.db_pwd, self.db_host, self.db)
         self.__engine = create_engine(self.__db_url, pool_pre_ping=True)
 
         if self.env == 'test':
@@ -50,7 +53,7 @@ class DBStorage():
     def new(self, obj):
         """ add the object to the current database session """
         self.__session.add(obj)
-    
+
     def save(self):
         """ commit all changes of the current database session """
         self.__session.commit()

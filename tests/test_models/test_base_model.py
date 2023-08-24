@@ -58,10 +58,11 @@ class test_basemodel(unittest.TestCase):
         self.assertEqual(dict, type(new_base))
         self.assertEqual(self.base.id, new_base["id"])
         self.assertEqual("BaseModel", new_base["__class__"])
-        self.assertEqual(self.base.created_at.isoformat(), new_base["created_at"])
-        self.assertEqual(self.base.updated_at.isoformat(), new_base["updated_at"])
+        self.assertEqual(self.base.created_at.isoformat(),
+                         new_base["created_at"])
+        self.assertEqual(self.base.updated_at.isoformat(),
+                         new_base["updated_at"])
         self.assertEqual(new_base.get("_sa_instance_state", None), None)
-
 
     @unittest.skipIf(os.getenv("HBNB_ENV") is not None, "Testing DBStorage")
     def test_save(self):
