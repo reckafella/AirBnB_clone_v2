@@ -13,7 +13,7 @@ sudo mkdir -p /data/web_static/releases/test/
 sudo touch /data/web_static/releases/test/index.html
 
 # Add simple content to index.html
-sudo echo -e "Hello, World!" > /data/web_static/releases/test/index.html
+echo -e "Hello, World!" | sudo tee /data/web_static/releases/test/index.html
 
 # Create a symbolic link
 sudo ln -s -f /data/web_static/releases/test /data/web_static/current
