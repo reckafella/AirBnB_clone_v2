@@ -16,6 +16,7 @@ of the web_static folder of your AirBnB Clone repo,\
 from datetime import datetime
 from fabric.api import local
 
+
 def do_pack():
     '''
     generates a .tgz archive from the contents of the web_static folder
@@ -28,9 +29,9 @@ def do_pack():
     full_path_to_archive = "versions/{}".format(file_name)
 
     # Create archive of web_static
-    archive = local("tar -czvf full_path_to_archive web_static")
+    archive = local("tar -czvf {} web_static".format(full_path_to_archive))
 
     if archive.succeeded:
-        print(full_path_to_archive)
+        return (full_path_to_archive)
     else:
-        print(None)
+        return (None)
