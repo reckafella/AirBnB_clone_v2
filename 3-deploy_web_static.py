@@ -15,6 +15,7 @@ from fabric.api import env
 from fabric.api import run
 from fabric.api import local
 from fabric.api import put
+from fabric.api import sudo
 from os import path
 
 
@@ -54,7 +55,7 @@ def do_deploy(archive_path):
         release_path = '/data/web_static/releases/{}'.format(folder_name)
 
         if path.exists(release_path):
-            run('rm -rf {}/'.format(release_path))
+            sudo(run('rm -rf {}'.format(release_path)))
 
         put(local_path=archive_path, remote_path='/tmp/')
 
