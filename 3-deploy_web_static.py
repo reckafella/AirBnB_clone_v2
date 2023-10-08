@@ -1,11 +1,21 @@
 #!/usr/bin/python3
 '''
-Fabric script (based on the file 1-pack_web_static.py) that distributes an
-archive to your web servers, using the function do_deploy
+Fabric script that creates and distributes an archive to your web servers:
+
+Prototype: def deploy():
+The script should take the following steps:
+    Call the do_pack() function and store the path of the created archive
+    Return False if no archive has been created
+    Call the do_deploy(archive_path) function, using the new path of the new archive
+    Return the return value of do_deploy
 '''
-from fabric.api import env, run, local, put
 from datetime import datetime
+from fabric.api import env
+from fabric.api import run
+from fabric.api import local
+from fabric.api import put
 from os import path
+
 
 env.hosts = ['100.26.241.94', '35.168.1.10']
 
@@ -59,3 +69,17 @@ def do_deploy(archive_path):
         return True
     except Exception as e:
         return False
+
+
+def deploy():
+    '''
+    A function that creates and distributes an archive to the web servers
+    '''
+    archive_path = do_pack()
+
+    # return False if no archive has been created
+    if archive_path is None:
+        return False
+    
+    # return the value of do_deploy
+    return do_deploy(archive_path=archive_path)
