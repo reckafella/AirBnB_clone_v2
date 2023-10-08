@@ -1,14 +1,6 @@
 #!/usr/bin/python3
 '''
-Fabric script that creates and distributes an archive to your web servers:
-
-Prototype: def deploy():
-The script should take the following steps:
-    Call the do_pack() function and store the path of the created archive
-    Return False if no archive has been created
-    Call the do_deploy(archive_path) function, using the new path of the\
-        new archive
-    Return the return value of do_deploy
+Fabric script that creates and distributes an archive to your web servers
 '''
 from datetime import datetime
 from fabric.api import env
@@ -53,20 +45,18 @@ def do_deploy(archive_path):
         folder_name = file_name.split('.')[0]
         release_path = '/data/web_static/releases/{}'.format(folder_name)
 
-        put(local_path=archive_path, remote_path='/tmp/')
+        put(archive_path, '/tmp/')
 
         run('mkdir -p {}'.format(release_path))
-        run('tar -zxvf /tmp/{} -C {}'.format(file_name, release_path))
-        run('mv {}/web_static/* {}'.format(release_path, release_path))
-        run('rm -rf {}/web_static/'.format(release_path))
-
+        run('tar -zxvf /tmp/{} -C {}/'.format(file_name, release_path))
         run('rm /tmp/{}'.format(file_name))
+
+        run('mv {}/web_static/* {}'.format(release_path, release_path))
+        run('rm -rf {}/web_static'.format(release_path))
 
         current_link = '/data/web_static/current'
         run('rm -f {}'.format(current_link))
-
         run('ln -s {} {}'.format(release_path, current_link))
-
         return True
     except Exception as e:
         return False
@@ -79,7 +69,7 @@ def deploy():
     archive_path = do_pack()
 
     # return False if no archive has been created
-    if archive_path is None:
+    if not archive_path:
         return False
 
     # return the value of do_deploy
