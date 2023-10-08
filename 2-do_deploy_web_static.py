@@ -3,9 +3,13 @@
 Fabric script (based on the file 1-pack_web_static.py) that distributes an
 archive to your web servers, using the function do_deploy
 '''
-from fabric.api import env, run, local, put
+from fabric.api import env
+from fabric.api import run
+from fabric.api import local
+from fabric.api import put
 from datetime import datetime
 from os import path
+
 
 env.hosts = ['100.26.241.94', '35.168.1.10']
 
