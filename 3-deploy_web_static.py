@@ -53,6 +53,9 @@ def do_deploy(archive_path):
         folder_name = file_name.split('.')[0]
         release_path = '/data/web_static/releases/{}'.format(folder_name)
 
+        if path.exists(release_path):
+            run('rm -rf {}/'.format(release_path))
+
         put(local_path=archive_path, remote_path='/tmp/')
 
         run('mkdir -p {}'.format(release_path))
