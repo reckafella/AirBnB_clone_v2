@@ -44,7 +44,7 @@ exec {"chown_data":
 exec {"hbnb_static":
   command => 'sudo sed -i "/listen 80 default_server;/a \\\tlocation \/hbnb_static \{\n\\t\\talias \/data\/web_static\/current\/;\n\\t\}\n" /etc/nginx/sites-enabled/default',
   require => Package['nginx'],
-  notify => Exec['restart_nginx']
+  notify => Service['nginx service']
 }
 
 service {"nginx_service":
