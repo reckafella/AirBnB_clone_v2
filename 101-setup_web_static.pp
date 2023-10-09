@@ -20,10 +20,7 @@ file {"/data":
 
 file {"/data/web_static":
   ensure => 'directory',
-  require => File['/data'],
-  owner => 'ubuntu',
-  group => 'ubuntu',
-  recurse => true
+  require => File['/data']
 }
 
 file {"/data/web_static/releases":
@@ -54,11 +51,10 @@ file {"/data/web_static/current":
   force => true
 }
 
-/* 
 exec {"chown_data":
-  command => "chown -R ubuntu:ubuntu /data/",
+  command => "chown -R ubuntu:ubuntu /data/"
 }
- */
+
 
 exec {"hbnb_static":
   command => 'sudo sed -i "/listen 80 default_server;/a \\\tlocation \/hbnb_static \{\n\\t\\talias \/data\/web_static\/current\/;\n\\t\}\n" /etc/nginx/sites-enabled/default',
