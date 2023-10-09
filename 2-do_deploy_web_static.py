@@ -33,7 +33,7 @@ def do_deploy(archive_path):
         current_link = '/data/web_static/current'
         run('rm -f {}'.format(current_link))
         run('ln -s {} {}'.format(release_path, current_link))
-    except:
+    except Exception:
         return False
     print("New version deployed!")
     return True
