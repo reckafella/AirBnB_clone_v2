@@ -24,12 +24,11 @@ def print_c(text=None):
         return f"C {escape(text.replace('_', ' '))}"
 
 
+@app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def print_python(text='is cool'):
-    if text != 'is cool':
-        return f"Python {escape(text.replace('_', ' '))}"
-    else:
-        return f"Python {escape(text)}"
+    ''' returns a message when /python is called '''
+    return f"Python {escape(text.replace('_', ' '))}"
 
 
 if __name__ == '__main__':
