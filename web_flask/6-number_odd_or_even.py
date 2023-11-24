@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-#!/usr/bin/python3
 '''
 Module to run the Flask web app on 0.0.0.0:5000
 '''
@@ -52,12 +51,13 @@ def render_odd_or_even(n):
     display a HTML page only if n is an integer and\
         indicate whether it is odd or even
     """
-    if n % 2 == 0:
-        odd_or_even = 'even'
-    else:
+    if n % 2 != 0:
         odd_or_even = 'odd'
+    else:
+        odd_or_even = 'even'
     return render_template('6-number_odd_or_even.html', n=n,
                            odd_or_even=odd_or_even)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='5000')
